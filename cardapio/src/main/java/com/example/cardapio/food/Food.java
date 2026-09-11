@@ -25,4 +25,5 @@ public class Food {
         this.image = foodRequestDTO.image();
         this.price = foodRequestDTO.price();
     }
+
 }
