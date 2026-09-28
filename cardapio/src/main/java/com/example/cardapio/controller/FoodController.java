@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("food")
+@RequestMapping()
 public class FoodController {
 
     @Autowired
     private FoodService foodService;
 
-    @GetMapping()
+    @GetMapping("public/food")
     public ResponseEntity<List<FoodResponseDTO>> getAll(
             @RequestParam (value = "pageNumber", defaultValue = "0")int pageNumber,
             @RequestParam (value = "pageSize", defaultValue = "10") int pageSize) {
         return ResponseEntity.status(HttpStatus.OK).body(foodService.getAll(pageNumber, pageSize));
     }
 
-    @PostMapping()
+    @PostMapping("admin/food")
     public ResponseEntity<List<Food>> saveFood(@RequestBody FoodRequestDTO foodRequestDTO) {
         boolean body = foodRequestDTO.validateBody();
         if (!body) {
@@ -35,7 +35,7 @@ public class FoodController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("{id}")
+    @PutMapping("admin/food/{id}")
     public ResponseEntity<Food> putFood(@RequestBody FoodRequestDTO foodRequestDTO, @PathVariable Long id) {
         boolean body = foodRequestDTO.validateBody();
         if (!body) {
@@ -45,7 +45,7 @@ public class FoodController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("admin/food/{id}")
     public ResponseEntity<Food> deleteFoood(@PathVariable Long id) {
         if (!foodService.deleteFood(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
